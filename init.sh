@@ -14,6 +14,7 @@ cp bin/etcd* ${bin_dir}
 cp etcd.service ${system_conf_dir}
 cp etcd ${env_dir}
 chmod u+x ${bin}/etcd*
+mkdir /var/lib/etcd
 ##alert etcd conf follow its's local ip
 ###--name tticar_k8s_m1 \
 ###--listen-peer-urls http://10.0.0.4:2380 \
