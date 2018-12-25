@@ -15,7 +15,7 @@ ExecStart=/usr/local/bin/etcd \
 --name tticar_k8s_m1 \
 --initial-advertise-peer-urls http://10.0.0.4:2380 \
 --listen-client-urls http://10.0.0.4:2379,http://127.0.0.1:2379 \
---advertise-client-urls http://10.0.0.4:23379 \
+--advertise-client-urls http://10.0.0.4:2379 \
 --initial-cluster-token etcd-cluster-1 \
 --initial-cluster tticar_k8s_m1=http://10.0.0.4:2380,tticar_k8s_n1=http://10.0.0.5:2380,tticar_k8s_n2=http://10.0.1.2:2380 \
 --initial-cluster-state new \

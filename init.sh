@@ -12,3 +12,8 @@ sshd-keygen
 cp bin/etcd* /usr/local/bin
 cp etcd.service ${system_conf_dir}
 cp etcd ${env_dir}
+##alert etcd conf follow its's local ip
+###--name tticar_k8s_m1 \
+###--initial-advertise-peer-urls http://10.0.0.4:2380 \
+###--listen-client-urls http://10.0.0.4:2379,http://127.0.0.1:2379 \
+###--advertise-client-urls http://10.0.0.4:2379 \
