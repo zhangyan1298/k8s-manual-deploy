@@ -1,0 +1,27 @@
+[Unit]
+Description=Etcd Systemd Service
+After=network.target
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/etcd
+KillMode=process
+Type=notify
+WorkingDirectory=/var/lib/etcd
+NotifyAccess=all
+LimitNOFILE=8192
+ExecStart=/usr/local/bin/etcd \
+--name tticar_k8s_m1 \
+--initial-advertise-peer-urls http://10.0.0.4:2380 \
+--listen-client-urls http://10.0.0.4:2379,http://127.0.0.1:2379 \
+--advertise-client-urls http://10.0.0.4:23379 \
+--initial-cluster-token etcd-cluster-1 \
+--initial-cluster tticar_k8s_m1=http://10.0.0.4:2380,tticar_k8s_n1=http://10.0.0.5:2380,tticar_k8s_n2=http://10.0.1.2:2380 \
+--initial-cluster-state new \
+--data-dir=/var/lib/etcd
+
+
+[Install]
+WantedBy=multi-user.target
+
