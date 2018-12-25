@@ -31,7 +31,7 @@ mkdir /var/lib/etcd
 #or follow 使用下面得配置
 #echo '{"CN":"coreos1","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem #-config=ca-config.json -profile=server -hostname="192.168.122.68,ext.example.com,coreos1.local,coreos1" - | cfssljson -bare server
 #
-mkdir /etc/kubernetes/ssl/
+mkdir -p /etc/kubernetes/ssl/
 cp bin/cert/*  /etc/kubernetes/ssl/
 #salt-cp "*" ./* /etc/kubernetes/ssl
 ##增加TLS 选项配置，etcd conf 增加如下行
