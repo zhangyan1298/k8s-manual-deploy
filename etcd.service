@@ -13,11 +13,17 @@ NotifyAccess=all
 LimitNOFILE=8192
 ExecStart=/usr/local/bin/etcd \
 --name tticar_k8s_m1 \
---initial-advertise-peer-urls http://10.0.0.4:2380 \
---listen-client-urls http://10.0.0.4:2379,http://127.0.0.1:2379 \
---advertise-client-urls http://10.0.0.4:2379 \
+--cert-file=/etc/kubernetes/ssl/server.pem \
+--key-file=/etc/kubernetes/ssl/server-key.pem \
+--peer-cert-file=/etc/kubernetes/ssl/server.pem \
+--peer-key-file=/etc/kubernetes/ssl/server-key.pem \
+--trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
+--peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
+--initial-advertise-peer-urls https://10.0.0.4:2380 \
+--listen-client-urls https://10.0.0.4:2379,https://127.0.0.1:2379 \
+--advertise-client-urls https://10.0.0.4:2379 \
 --initial-cluster-token etcd-cluster-1 \
---initial-cluster tticar_k8s_m1=http://10.0.0.4:2380,tticar_k8s_n1=http://10.0.0.5:2380,tticar_k8s_n2=http://10.0.1.2:2380 \
+--initial-cluster tticar_k8s_m1=https://10.0.0.4:2380,tticar_k8s_n1=https://10.0.0.5:2380,tticar_k8s_n2=https://10.0.1.2:2380 \
 --initial-cluster-state new \
 --data-dir=/var/lib/etcd
 

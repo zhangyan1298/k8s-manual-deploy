@@ -1,0 +1,39 @@
+{
+    "CN": "Server",
+    "hosts": [
+        "10.0.0.4",
+        "10.0.0.5",
+        "10.0.1.2",
+        "10.0.0.6",
+        "10.0.0.0",
+        "10.0.1.3",
+        "10.0.1.4",
+        "10.0.0.7",
+        "127.0.0.1",
+        "172.21.0.1",
+        "172.20.0.1",
+        "172.16.0.1",
+        "tticar_k8s_n1",
+        "tticar_k8s_n2",
+        "tticar_k8s_m1",
+        "cluster.local",
+        "kubernetes",
+        "kubernetes.default",
+        "kubernetes.default.svc",
+        "kubernetes.default.svc.cluster",
+        "kubernetes.default.svc.cluster.local"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "CN",
+            "L": "HeFei",
+            "ST": "HeFei",
+            "O": "k8s",
+            "OU": "System"
+        }
+    ]
+}
