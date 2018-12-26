@@ -19,7 +19,6 @@ ExecStart=/usr/local/bin/etcd \
 --peer-key-file=/etc/kubernetes/ssl/server-key.pem \
 --trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
 --peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
---listen-peer-urls https://10.0.0.4:2380 \
 --initial-advertise-peer-urls https://10.0.0.4:2380 \
 --listen-client-urls https://10.0.0.4:2379,https://127.0.0.1:2379 \
 --advertise-client-urls https://10.0.0.4:2379 \
