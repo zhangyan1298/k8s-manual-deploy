@@ -30,6 +30,8 @@ mkdir /var/lib/etcd
 #./cfssl print-defaults csr > server.json
 #or follow 使用下面得配置
 #echo '{"CN":"coreos1","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem #-config=ca-config.json -profile=server -hostname="192.168.122.68,ext.example.com,coreos1.local,coreos1" - | cfssljson -bare server
+#gen server cer key
+#./cfssl gencert -ca=cert/ca.pem -ca-key=cert/ca-key.pem -config=ca-config.json -profile=server server-csr.json | ./cfssljson -bare server
 #
 mkdir -p /etc/kubernetes/ssl/
 cp bin/cert/*  /etc/kubernetes/ssl/
@@ -41,3 +43,5 @@ cp bin/cert/*  /etc/kubernetes/ssl/
 #--peer-key-file=/etc/kubernetes/ssl/server-key.pem \
 #--trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
 #--peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
+#查看集群状态/usr/local/bin/etcdctl --ca-file /etc/kubernetes/ssl/ca.pem --endpoints https://127.0.0.1:2379 cluster-health
+

@@ -1,0 +1,10 @@
+confdir = "/etc/confd"
+interval = 20
+backend = "etcd"
+nodes = [
+        "https://127.0.0.1:2379"
+]
+prefix = "/"
+scheme = "https"
+verbose = true
+client_cakeys = "/etc/kubernetes/ssl/ca.pem"
