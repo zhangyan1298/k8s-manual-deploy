@@ -1,0 +1,29 @@
+[Unit]
+Description=Kubernetes Controller Manager
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+[Service]
+ExecStart=/usr/local/bin/kube-controller-manager \
+--address=127.0.0.1 \
+--kubeconfig=/etc/kubernetes/ssl/config \
+--allocate-node-cidrs=true \
+--service-cluster-ip-range=172.21.0.0/16 \
+--cluster-cidr=172.20.0.0/16 \
+--cluster-name=kubernetes \
+--cluster-signing-cert-file=/etc/kubernetes/ssl/ca.pem \
+--cluster-signing-key-file=/etc/kubernetes/ssl/ca-key.pem  \
+--service-account-private-key-file=/etc/kubernetes/ssl/ca-key.pem \
+--root-ca-file=/etc/kubernetes/ssl/ca.pem \
+--tls-cert-file=/etc/kubernetes/ssl/ca.pem \
+--leader-elect=true \
+--tls-cert-file=/etc/kubernetes/ssl/server.pem \
+--tls-private-key-file=/etc/kubernetes/ssl/server-key.pem \
+--feature-gates=DynamicAuditing=true \
+--log-dir=/var/log/kubernetes/controller \
+--pod-eviction-timeout 30s \
+--profiling \
+--secure-port 10257 \
+--v=2
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=multi-user.target

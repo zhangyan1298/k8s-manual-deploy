@@ -41,3 +41,6 @@ cp bin/cert/*  /etc/kubernetes/ssl/
 #--peer-key-file=/etc/kubernetes/ssl/server-key.pem \
 #--trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
 #--peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
+####
+#config kube-scheduler
+#
