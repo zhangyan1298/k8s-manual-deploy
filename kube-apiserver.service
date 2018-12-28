@@ -1,0 +1,49 @@
+[Unit]
+Description=Kubernetes API Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=network.target
+[Service]
+ExecStart=/usr/local/bin/kube-apiserver \
+--admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestriction \
+--advertise-address=10.0.0.4 \
+--bind-address=10.0.0.4 \
+--insecure-bind-address=0.0.0.0 \
+--secure-port=6443 \
+--kubelet-https=true \
+--runtime-config=rbac.authorization.k8s.io/v1,auditregistration.k8s.io/v1alpha1 \
+--authorization-mode=AlwaysAllow \
+--enable-bootstrap-token-auth \
+--service-cluster-ip-range=172.21.0.0/16 \
+--service-node-port-range=3000-9000 \
+--etcd-servers=https://10.0.0.4:2379,https://10.0.0.6:2379,https://10.0.1.3:2379 \
+--enable-swagger-ui=true \
+--allow-privileged=true \
+--apiserver-count=1 \
+--audit-dynamic-configuration \
+--audit-log-maxage=30 \
+--audit-log-maxbackup=3 \
+--audit-log-maxsize=100 \
+--audit-log-path=/var/lib/audit.log \
+--event-ttl=1h \
+--default-not-ready-toleration-seconds 350 \
+--default-unreachable-toleration-seconds 200 \
+--enable-garbage-collector \
+--token-auth-file=/etc/kubernetes/token.csv  \
+--tls-cert-file=/etc/kubernetes/ssl/server.pem \
+--tls-private-key-file=/etc/kubernetes/ssl/server-key.pem \
+--client-ca-file=/etc/kubernetes/ssl/ca.pem \
+--service-account-key-file=/etc/kubernetes/ssl/ca-key.pem \
+--etcd-cafile=/etc/kubernetes/ssl/ca.pem \
+--etcd-certfile=/etc/kubernetes/ssl/server.pem \
+--etcd-keyfile=/etc/kubernetes/ssl/server-key.pem \
+--v=4 \
+--log-dir=/var/log/ \
+--feature-gates=DynamicAuditing=true \
+--storage-backend=etcd3 \
+--anonymous-auth=false
+Restart=on-failure
+RestartSec=5
+Type=notify
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target
