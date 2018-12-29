@@ -1,0 +1,26 @@
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=docker.service
+Requires=docker.service
+[Service]
+WorkingDirectory=/var/lib/kubelet
+ExecStart=/usr/local/bin/kubelet \
+--address=0.0.0.0 \
+--hostname-override=10.0.0.4 \
+--experimental-bootstrap-kubeconfig=/etc/kubernetes/ssl/bootstrap.kubeconfig \
+--kubeconfig=/etc/kubernetes/kubelet.config \
+--cert-dir=/etc/kubernetes/ssl \
+--hairpin-mode \
+promiscuous-bridge \
+--allow-privileged=true \
+--serialize-image-pulls=false \
+--logtostderr=true \
+--runtime-cgroups=/lib/systemd/system/kubelet.service \
+--kubelet-cgroups=/lib/systemd/system/kubelet.service \
+--cluster-dns=172.20.0.2 \
+--cluster-domain=cluster.local
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=multi-user.target

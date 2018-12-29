@@ -43,4 +43,28 @@ cp bin/cert/*  /etc/kubernetes/ssl/
 #--peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
 ####
 #config kube-scheduler
-#
+#copy configure to /usr/lib/systemd/system
+#copy binary to /usr/local/bin
+#alert configure 
+#config kube-controller-manager
+#copy configure to /usr/lib/systemd/system
+#copy binary to /usr/local/bin
+#alert configure 
+#config docker 
+#remove exits docker old comoins
+#config docker-ce repo
+#1.sudo yum install -y yum-utils \
+#  device-mapper-persistent-data \
+#  lvm2
+#2. sudo yum-config-manager \
+#    --add-repo \
+#    https://download.docker.com/linux/centos/docker-ce.repo
+#3. list release docker info
+#yum list docker-ce --showduplicates | sort -r
+#4.install release docker-ce 
+#sudo yum install docker-ce
+#start docker-ce
+#systemctl enable docker-ce
+#systemctl start docker
+#configure kubelet
+#配置集群网络
