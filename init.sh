@@ -67,4 +67,13 @@ cp bin/cert/*  /etc/kubernetes/ssl/
 #systemctl enable docker-ce
 #systemctl start docker
 #configure kubelet
+#cp /home/opc/bootstrap.kubeconfig /etc/kubernetes/ssl/
+#cp /home/opc/kubelet /usr/local/bin/
+#cp kubelet.service /usr/lib/systemd/system/
+#systemctl enable kubelet
+#systemctl start kubelet
+#alert configure for hostname
+#--hostname-override=10.0.0.6
+#如果这里的hostname设置了相同的值，那么master上只能显示出一个node，解决
+#需要删除master签发的/etc/kubernetes/kubelet.kubeconfig 文件，修改hostname 重新注册
 #配置集群网络
