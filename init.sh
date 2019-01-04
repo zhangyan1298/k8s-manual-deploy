@@ -87,6 +87,9 @@ cp bin/cert/*  /etc/kubernetes/ssl/
 ##支持的有 lc,dh,sh,sed,nq
 #配置集群网络
 #使用calico 三层路由模式，并开启tun隧道
+#注意事项：calico 使用唯一的主机名来注册bgp网络，确保主机名唯一，如果修改了某个主机名那么可能node无法注册，需要先确认清空所有负载
+#使用calicoctl delete nodename 删除后重信启动calico-node服务。
+#配置calcioctl 可使用命令行或生成默认配置文件到/etc/calcio/calicoctl.cfg 目录下
 #官网下载calico.yml ，修改endpoints etcd地址，如果etcd开启了tls 那么加入tls，ca，key，cert 参数，修改volume 挂载configmap。
 #calico文件包括一个kube-caloico controller deployment 部署，一个calico-node pod daemonset，运行在集群内每台主机上，使用hostnetwor-true 模式
 #calcio包括felix，用来监控容器，设置容器ip,路由规则,iptables 等.bird 分发bgp peer 对等路由信息. confd 监控etcd 生成bird配置文件.
