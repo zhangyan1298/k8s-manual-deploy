@@ -96,4 +96,5 @@ cp bin/cert/*  /etc/kubernetes/ssl/
 #参数注意实现ipipMode=always，开启ipip隧道模式，如果未开启则使用bgp模式下node 无法ping通pod 的ip，在公有云环境下开启ipipmode=always
 #修改kubelet 的network-plugin=cni,可选参数--cni-conf-dir 插件的配置文件所在地--cni-bin-dir cni插件的bin文件目录
 #docker 增加daemon.json 文件，开启独立群主机选项
-#
+#创建pod，有controller 查看是否有主够的资源后又scheduler调度到node 调用kubelet，启用cni插件，分配IP地址(由POD_CIDR 控制的网段，kubelet启动时候会申请一个24的子网段，pod分配的是一个26的子网段，pod内部只有一条路由指向169.254.1.1 的路由
+#且169.254.1.1的arp 对应mac地址是ee:ee:ee:ee:ee:ee ,当pod内部发送数据包给169.254.1.1 时候，由于pod 与主机使用的是veth对的网卡，那么从一对网卡的对端发送数据，另一端就会收到，那么数据就可以在主机上进行路由了
