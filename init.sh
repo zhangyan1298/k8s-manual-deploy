@@ -90,13 +90,22 @@ cp bin/cert/*  /etc/kubernetes/ssl/
 #注意事项：calico 使用唯一的主机名来注册bgp网络，确保主机名唯一，如果修改了某个主机名那么可能node无法注册，需要先确认清空所有负载
 #注意10-calico-conflist 文件是由configmap 生成的，注意语法及不要由#号
 #使用calicoctl delete nodename 删除后重信启动calico-node服务。
+<<<<<<< HEAD
 #配置calcioctl 可使用命令行或生成默认配置文件到/etc/calcio/calicoctl.cfg 目录下
 #curl -O -L  https://github.com/projectcalico/calicoctl/releases/download/v3.4.0/calicoctl
+=======
+#配置calcioctl 可使用命令行或生成默认配置文件到/etc/calico/calicoctl.cfg 目录下
+>>>>>>> ca2fa2c568fdc69286e6039f8cdcd3d3fa1a6397
 #官网下载calico.yml ，修改endpoints etcd地址，如果etcd开启了tls 那么加入tls，ca，key，cert 参数，修改volume 挂载configmap。
-#calico文件包括一个kube-caloico controller deployment 部署，一个calico-node pod daemonset，运行在集群内每台主机上，使用hostnetwor-true 模式
-#calcio包括felix，用来监控容器，设置容器ip,路由规则,iptables 等.bird 分发bgp peer 对等路由信息. confd 监控etcd 生成bird配置文件.
+#calico文件包括一个kube-calico controller deployment 部署，一个calico-node pod daemonset，运行在集群内每台主机上，使用hostnetwor-true 模式
+#calico包括felix，用来监控容器，设置容器ip,路由规则,iptables 等.bird 分发bgp peer 对等路由信息. confd 监控etcd 生成bird配置文件.
 #参数注意实现ipipMode=always，开启ipip隧道模式，如果未开启则使用bgp模式下node 无法ping通pod 的ip，在公有云环境下开启ipipmode=always
 #修改kubelet 的network-plugin=cni,可选参数--cni-conf-dir 插件的配置文件所在地--cni-bin-dir cni插件的bin文件目录
 #docker 增加daemon.json 文件，开启独立群主机选项
+<<<<<<< HEAD
 #注意部署好calcio已经启用了networkpolicy，需要加入允许策略，不然外网无法访问nodeport的服务
 
+=======
+#创建pod，有controller 查看是否有主够的资源后又scheduler调度到node 调用kubelet，启用cni插件，分配IP地址(由POD_CIDR 控制的网段，kubelet启动时候会申请一个24的子网段，pod分配的是一个26的子网段，pod内部只有一条路由指向169.254.1.1 的路由
+#且169.254.1.1的arp 对应mac地址是ee:ee:ee:ee:ee:ee ,当pod内部发送数据包给169.254.1.1 时候，由于pod 与主机使用的是veth对的网卡，那么从一对网卡的对端发送数据，另一端就会收到，那么数据就可以在主机上进行路由了
+>>>>>>> ca2fa2c568fdc69286e6039f8cdcd3d3fa1a6397
