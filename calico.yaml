@@ -37,9 +37,9 @@ data:
           "type": "calico",
           "log_level": "info",
           "etcd_endpoints": "__ETCD_ENDPOINTS__",
-          "etcd_key_file": "/etc/kubernetes/ssl/server-key.pem",
-          "etcd_cert_file": "/etc/kubernetes/ssl/server.pem",
-          "etcd_ca_cert_file": "/etc/kubernetes/ssl/ca.pem",
+          "etcd_key_file": "/etc/kubernetes/ssl/server-key.pem" #"__ETCD_KEY_FILE__",
+          "etcd_cert_file": "/etc/kubernetes/ssl/server.pem" #"__ETCD_CERT_FILE__",
+          "etcd_ca_cert_file": "/etc/kubernetes/ssl/ca.pem" #"__ETCD_CA_CERT_FILE__",
           "mtu": __CNI_MTU__,
           "ipam": {
               "type": "calico-ipam"
@@ -239,12 +239,6 @@ spec:
               value: "info"
             - name: FELIX_HEALTHENABLED
               value: "true"
-            - name: FELIX_FAILSAFEINBOUNDHOSTPORTS
-              value: "tcp:22,tcp:80,tcp:179,tcp:68,tcp:2379,tcp:2380,tcp:6666,tcp:6667,tcp:53,udp:53"
-            - name: FELIX_FAILSAFEOUTBOUNDHOSTPORTS
-              value: "tcp:22,tcp:80,tcp:179,tcp:68,tcp:2379,tcp:2380,tcp:6666,tcp:6667"
-            - name: LOGFILEPATH
-              value: /var/log/calico/felix.log
           securityContext:
             privileged: true
           resources:
