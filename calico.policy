@@ -1,0 +1,17 @@
+- apiVersion: projectcalico.org/v3
+  kind: GlobalNetworkPolicy
+  metadata:
+    name: failsafe
+  spec:
+    selector: "all()"
+    order: 0
+    ingress:
+    - action: Allow
+      protocol: TCP
+      source:
+        nets:
+        - "0.0.0.0/0"
+      destination:
+        ports: [22]
+    - action: Allow
+      protocol: ICMP

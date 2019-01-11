@@ -1,0 +1,22 @@
+apiVersion: projectcalico.org/v3
+kind: Profile
+metadata:
+  creationTimestamp: 2018-12-29T08:03:04Z
+  name: kns.default
+  resourceVersion: "1024183"
+  uid: 2b4987c7-0b40-11e9-a6f5-0200170176db
+spec:
+  egress:
+  - action: Allow
+    destination: {}
+    icmp: {}
+    protocol: ICMP
+    source: {}
+  ingress:
+  - action: Allow
+    destination: {}
+    icmp: {}
+    protocol: ICMP
+    source:
+      nets:
+      - 0.0.0.0/0

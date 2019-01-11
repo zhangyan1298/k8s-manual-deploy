@@ -1,0 +1,26 @@
+apiVersion: projectcalico.org/v3
+items:
+- apiVersion: projectcalico.org/v3
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: 2019-01-07T09:04:24Z
+    name: knp.default.allow-all
+    namespace: default
+    resourceVersion: "1518399"
+    uid: 3a982be0-125b-11e9-9eb1-0200170176db
+  spec:
+    egress:
+    - action: Allow
+      destination: {}
+      source: {}
+    ingress:
+    - action: Allow
+      destination: {}
+      source: {}
+    order: 1000
+    selector: projectcalico.org/orchestrator == 'k8s'
+    types:
+    - Ingress
+kind: NetworkPolicyList
+metadata:
+  resourceVersion: "1518405"

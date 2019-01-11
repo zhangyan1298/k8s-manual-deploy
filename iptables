@@ -1,0 +1,379 @@
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+cali-INPUT  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:Cz_u1IQiXIMmKD4c */
+KUBE-FIREWALL  all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+INPUT_direct  all  --  0.0.0.0/0            0.0.0.0/0           
+INPUT_ZONES_SOURCE  all  --  0.0.0.0/0            0.0.0.0/0           
+INPUT_ZONES  all  --  0.0.0.0/0            0.0.0.0/0           
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            ctstate INVALID
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            state NEW tcp dpt:22
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+cali-FORWARD  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:wUHhoiAYhphO9Mso */
+DOCKER-USER  all  --  0.0.0.0/0            0.0.0.0/0           
+DOCKER-ISOLATION-STAGE-1  all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+DOCKER     all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+DOCKER     all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+KUBE-FORWARD  all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes forwarding rules */
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+FORWARD_direct  all  --  0.0.0.0/0            0.0.0.0/0           
+FORWARD_IN_ZONES_SOURCE  all  --  0.0.0.0/0            0.0.0.0/0           
+FORWARD_IN_ZONES  all  --  0.0.0.0/0            0.0.0.0/0           
+FORWARD_OUT_ZONES_SOURCE  all  --  0.0.0.0/0            0.0.0.0/0           
+FORWARD_OUT_ZONES  all  --  0.0.0.0/0            0.0.0.0/0           
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            ctstate INVALID
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+cali-OUTPUT  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:tVnHkvAo15HuiPy0 */
+KUBE-FIREWALL  all  --  0.0.0.0/0            0.0.0.0/0           
+OUTPUT_direct  all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+BareMetalInstanceServices  all  --  0.0.0.0/0            169.254.0.0/16      
+
+Chain BareMetalInstanceServices (1 references)
+target     prot opt source               destination         
+ACCEPT     tcp  --  0.0.0.0/0            169.254.0.2          owner UID match 0 tcp dpt:3260 /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */
+ACCEPT     tcp  --  0.0.0.0/0            169.254.2.0/24       owner UID match 0 tcp dpt:3260 /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */
+ACCEPT     tcp  --  0.0.0.0/0            169.254.0.2          tcp dpt:80 /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */
+ACCEPT     udp  --  0.0.0.0/0            169.254.169.254      udp dpt:53 /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */
+ACCEPT     tcp  --  0.0.0.0/0            169.254.169.254      tcp dpt:53 /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */
+ACCEPT     tcp  --  0.0.0.0/0            169.254.0.3          owner UID match 0 tcp dpt:80 /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */
+ACCEPT     tcp  --  0.0.0.0/0            169.254.0.4          tcp dpt:80 /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */
+ACCEPT     tcp  --  0.0.0.0/0            169.254.169.254      tcp dpt:80 /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */
+ACCEPT     udp  --  0.0.0.0/0            169.254.169.254      udp dpt:67 /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */
+ACCEPT     udp  --  0.0.0.0/0            169.254.169.254      udp dpt:69 /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */
+ACCEPT     udp  --  0.0.0.0/0            169.254.169.254      udp dpt:123 /* Allow access to OBMCS local NTP service */
+REJECT     tcp  --  0.0.0.0/0            169.254.0.0/16       tcp /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */ reject-with tcp-reset
+REJECT     udp  --  0.0.0.0/0            169.254.0.0/16       udp /* See the Oracle-Provided Images section in the Oracle Bare Metal documentation for security impact of modifying or removing this rule */ reject-with icmp-port-unreachable
+
+Chain DOCKER (2 references)
+target     prot opt source               destination         
+
+Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+target     prot opt source               destination         
+DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0           
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+
+Chain DOCKER-ISOLATION-STAGE-2 (1 references)
+target     prot opt source               destination         
+DROP       all  --  0.0.0.0/0            0.0.0.0/0           
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+
+Chain DOCKER-USER (1 references)
+target     prot opt source               destination         
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+
+Chain FORWARD_IN_ZONES (1 references)
+target     prot opt source               destination         
+FWDI_public  all  --  0.0.0.0/0            0.0.0.0/0           [goto] 
+
+Chain FORWARD_IN_ZONES_SOURCE (1 references)
+target     prot opt source               destination         
+
+Chain FORWARD_OUT_ZONES (1 references)
+target     prot opt source               destination         
+FWDO_public  all  --  0.0.0.0/0            0.0.0.0/0           [goto] 
+
+Chain FORWARD_OUT_ZONES_SOURCE (1 references)
+target     prot opt source               destination         
+
+Chain FORWARD_direct (1 references)
+target     prot opt source               destination         
+
+Chain FWDI_public (1 references)
+target     prot opt source               destination         
+FWDI_public_log  all  --  0.0.0.0/0            0.0.0.0/0           
+FWDI_public_deny  all  --  0.0.0.0/0            0.0.0.0/0           
+FWDI_public_allow  all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           
+
+Chain FWDI_public_allow (1 references)
+target     prot opt source               destination         
+
+Chain FWDI_public_deny (1 references)
+target     prot opt source               destination         
+
+Chain FWDI_public_log (1 references)
+target     prot opt source               destination         
+
+Chain FWDO_public (1 references)
+target     prot opt source               destination         
+FWDO_public_log  all  --  0.0.0.0/0            0.0.0.0/0           
+FWDO_public_deny  all  --  0.0.0.0/0            0.0.0.0/0           
+FWDO_public_allow  all  --  0.0.0.0/0            0.0.0.0/0           
+
+Chain FWDO_public_allow (1 references)
+target     prot opt source               destination         
+
+Chain FWDO_public_deny (1 references)
+target     prot opt source               destination         
+
+Chain FWDO_public_log (1 references)
+target     prot opt source               destination         
+
+Chain INPUT_ZONES (1 references)
+target     prot opt source               destination         
+IN_public  all  --  0.0.0.0/0            0.0.0.0/0           [goto] 
+
+Chain INPUT_ZONES_SOURCE (1 references)
+target     prot opt source               destination         
+
+Chain INPUT_direct (1 references)
+target     prot opt source               destination         
+
+Chain IN_public (1 references)
+target     prot opt source               destination         
+IN_public_log  all  --  0.0.0.0/0            0.0.0.0/0           
+IN_public_deny  all  --  0.0.0.0/0            0.0.0.0/0           
+IN_public_allow  all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           
+
+Chain IN_public_allow (1 references)
+target     prot opt source               destination         
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:22 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:4505 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:4506 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpts:2379:2380 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:443 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:8888 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:8080 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:6443 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpts:10251:10259 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:10251 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:10259 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:1248 ctstate NEW
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            udp dpt:1248 ctstate NEW
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:179 ctstate NEW
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0            ctstate NEW
+
+Chain IN_public_deny (1 references)
+target     prot opt source               destination         
+
+Chain IN_public_log (1 references)
+target     prot opt source               destination         
+
+Chain KUBE-FIREWALL (2 references)
+target     prot opt source               destination         
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes firewall for dropping marked packets */ mark match 0x8000/0x8000
+
+Chain KUBE-FORWARD (1 references)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes forwarding rules */ mark match 0x4000/0x4000
+ACCEPT     all  --  172.20.0.0/16        0.0.0.0/0            /* kubernetes forwarding conntrack pod source rule */ ctstate RELATED,ESTABLISHED
+ACCEPT     all  --  0.0.0.0/0            172.20.0.0/16        /* kubernetes forwarding conntrack pod destination rule */ ctstate RELATED,ESTABLISHED
+
+Chain OUTPUT_direct (1 references)
+target     prot opt source               destination         
+
+Chain cali-FORWARD (1 references)
+target     prot opt source               destination         
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:vjrMJCRpqwy5oRoX */ MARK and 0xfff1ffff
+cali-from-hep-forward  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:A_sPAO0mcxbT9mOV */ mark match 0x0/0x10000
+cali-from-wl-dispatch  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:8ZoYfO5HKXWbB3pk */
+cali-to-wl-dispatch  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:jdEuaPBe14V2hutn */
+cali-to-hep-forward  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:12bc6HljsMKsmfr- */
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:MH9kMp5aNICL-Olv */ /* Policy explicitly accepted packet. */ mark match 0x10000/0x10000
+
+Chain cali-INPUT (1 references)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:msRIDfJRWnYwzW4g */ mark match 0x10000/0x10000
+ACCEPT     4    --  0.0.0.0/0            0.0.0.0/0            /* cali:1IRlRis1-pHsGnX5 */ /* Allow IPIP packets from Calico hosts */ match-set cali40all-hosts-net src ADDRTYPE match dst-type LOCAL
+DROP       4    --  0.0.0.0/0            0.0.0.0/0            /* cali:jX63A0VGotRJWnUL */ /* Drop IPIP packets from non-Calico hosts */
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:rQGh2VKQIoq6jjC0 */ MARK and 0xfffff
+cali-forward-check  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:jE6vFhCkmo2WmiE4 */
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:CgfV_enQOTyfNkj_ */ mark match ! 0x0/0xfff00000
+cali-wl-to-host  all  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:M1tv99q1Kkv1pHMJ */
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:qI7jW9rZGESqrwot */ MARK and 0xfff0ffff
+cali-from-host-endpoint  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:M7Qvlw1SjzJHa3ic */
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:Bd6RmqSCjsUrE-9F */ /* Host endpoint policy accepted packet. */ mark match 0x10000/0x10000
+
+Chain cali-OUTPUT (1 references)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:Mq1_rAdXXH3YkrzW */ mark match 0x10000/0x10000
+cali-forward-endpoint-mark  all  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:5Z67OUUpTOM7Xa1a */ mark match ! 0x0/0xfff00000
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:M2Wf0OehNdig8MHR */
+ACCEPT     4    --  0.0.0.0/0            0.0.0.0/0            /* cali:AJBkLho_0Qd8LNr3 */ /* Allow IPIP packets to other Calico hosts */ match-set cali40all-hosts-net dst ADDRTYPE match src-type LOCAL
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:iz2RWXlXJDUfsLpe */ MARK and 0xfff0ffff
+cali-to-host-endpoint  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:hXojbnLundZDgZyw */
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:wankpMDC2Cy1KfBv */ /* Host endpoint policy accepted packet. */ mark match 0x10000/0x10000
+
+Chain cali-failsafe-in (0 references)
+target     prot opt source               destination         
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:wWFQM43tJU7wwnFZ */ multiport dports 22
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            /* cali:LwNV--R8MjeUYacw */ multiport dports 68
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:QOO5NUOqOSS1_Iw0 */ multiport dports 179
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:cwZWoBSwVeIAZmVN */ multiport dports 2379
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:7FbNXT91kugE_upR */ multiport dports 2380
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:ywE9WYUBEpve70WT */ multiport dports 6666
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:l-WQSVBf_lygPR0J */ multiport dports 6667
+
+Chain cali-failsafe-out (0 references)
+target     prot opt source               destination         
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            /* cali:82hjfji-wChFhAqL */ multiport dports 53
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            /* cali:TNM3RfEjbNr72hgH */ multiport dports 67
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:ycxKitIl4u3dK0HR */ multiport dports 179
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:hxjEWyxdkXXkdvut */ multiport dports 2379
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:cA_GLtruuvG88KiO */ multiport dports 2380
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:Sb1hkLYFMrKS6r01 */ multiport dports 6666
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:UwLSebGONJUG4yG- */ multiport dports 6667
+
+Chain cali-forward-check (1 references)
+target     prot opt source               destination         
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:Pbldlb4FaULvpdD8 */ ctstate RELATED,ESTABLISHED
+cali-set-endpoint-mark  tcp  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:ZD-6UxuUtGW-xtzg */ /* To kubernetes NodePort service */ multiport dports 30000:32767 match-set cali40this-host dst
+cali-set-endpoint-mark  udp  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:CbPfUajQ2bFVnDq4 */ /* To kubernetes NodePort service */ multiport dports 30000:32767 match-set cali40this-host dst
+cali-set-endpoint-mark  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:jmhU0ODogX-Zfe5g */ /* To kubernetes service */ ! match-set cali40this-host dst
+
+Chain cali-forward-endpoint-mark (1 references)
+target     prot opt source               destination         
+cali-from-endpoint-mark  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:O0SmFDrnm7KggWqW */ mark match ! 0x100000/0xfff00000
+cali-to-wl-dispatch  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:aFl0WFKRxDqj8oA6 */
+cali-to-hep-forward  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:AZKVrO3i_8cLai5f */
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:96HaP1sFtb-NYoYA */ MARK and 0xfffff
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:VxO6hyNWz62YEtul */ /* Policy explicitly accepted packet. */ mark match 0x10000/0x10000
+
+Chain cali-from-endpoint-mark (1 references)
+target     prot opt source               destination         
+cali-fw-cali388fcf382cc  all  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:ms-xKMEkZF3R39YB */ mark match 0xf6f00000/0xfff00000
+cali-fw-cali3e96315df96  all  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:mATYyUOfHZje7hxv */ mark match 0x80900000/0xfff00000
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:Hx2M_30lPDmfX8cI */ /* Unknown interface */
+
+Chain cali-from-hep-forward (1 references)
+target     prot opt source               destination         
+
+Chain cali-from-host-endpoint (1 references)
+target     prot opt source               destination         
+
+Chain cali-from-wl-dispatch (2 references)
+target     prot opt source               destination         
+cali-fw-cali388fcf382cc  all  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:02fSIdgIcCRZknPO */
+cali-fw-cali3e96315df96  all  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:iSAOZV5PZCufRXP9 */
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:oe3CoKSkZVebHBvf */ /* Unknown interface */
+
+Chain cali-fw-cali388fcf382cc (2 references)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:Iio40eSJW395jXMT */ ctstate RELATED,ESTABLISHED
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:IZTXeFduWw3npD5a */ ctstate INVALID
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:y36Tx7aDA0yXa7da */ MARK and 0xfffeffff
+cali-pro-kns.default  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:8jbssXRBNxhvUTQj */
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:jR0GDNJepkRxMyU6 */ /* Return if profile accepted */ mark match 0x10000/0x10000
+cali-pro-ksa.default.default  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:Unc2i696Bk6t0eHN */
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:MaKEIocLmDxFTNs8 */ /* Return if profile accepted */ mark match 0x10000/0x10000
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:OaiKb2dd-8m8D5vu */ /* Drop if no profiles matched */
+
+Chain cali-fw-cali3e96315df96 (2 references)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:f-ZWisdiLXa8naPQ */ ctstate RELATED,ESTABLISHED
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:_cSEN9ahZfm7-7MY */ ctstate INVALID
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:KmUSYPOHAcm3ZC4i */ MARK and 0xfffeffff
+cali-pro-kns.default  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:ENTeJHk57q_M1sro */
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:KA3ABRvtdiU59ox0 */ /* Return if profile accepted */ mark match 0x10000/0x10000
+cali-pro-ksa.default.default  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:w5kr4bah_wE7ZIk5 */
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:tucH77_lLM9HEV3t */ /* Return if profile accepted */ mark match 0x10000/0x10000
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:5dXNO0lLixi1v9Rf */ /* Drop if no profiles matched */
+
+Chain cali-pi-default.failsafe (2 references)
+target     prot opt source               destination         
+MARK       tcp  --  0.0.0.0/0            0.0.0.0/0            /* cali:geJ6L6Dm5I8PjhAP */ multiport dports 22 MARK or 0x10000
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:GnxLOEC0dp0-Cu_8 */ mark match 0x10000/0x10000
+MARK       icmp --  0.0.0.0/0            0.0.0.0/0            /* cali:65AOGbRQQoFsbn__ */ MARK or 0x10000
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:g60KIoqueJkoWXLH */ mark match 0x10000/0x10000
+
+Chain cali-po-default.failsafe (0 references)
+target     prot opt source               destination         
+
+Chain cali-pri-kns.default (2 references)
+target     prot opt source               destination         
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:7Fnh7Pv3_98FtLW7 */ MARK or 0x10000
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:ZbV6bJXWSRefjK0u */ mark match 0x10000/0x10000
+
+Chain cali-pri-ksa.default.default (2 references)
+target     prot opt source               destination         
+
+Chain cali-pro-kns.default (2 references)
+target     prot opt source               destination         
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:oLzzje5WExbgfib5 */ MARK or 0x10000
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:4goskqvxh5xcGw3s */ mark match 0x10000/0x10000
+
+Chain cali-pro-ksa.default.default (2 references)
+target     prot opt source               destination         
+
+Chain cali-set-endpoint-mark (3 references)
+target     prot opt source               destination         
+cali-sm-cali388fcf382cc  all  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:zemM6r7IHCtumgQj */
+cali-sm-cali3e96315df96  all  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:-xwrDRZXFcayl9Xf */
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:tayKsgISPGDtYk7O */ /* Unknown endpoint */
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:84gJ3YjXx5C0cakO */ /* Non-Cali endpoint mark */ MARK xset 0x100000/0xfff00000
+
+Chain cali-sm-cali388fcf382cc (1 references)
+target     prot opt source               destination         
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:U8g-6qFcQgK9oI-M */ MARK xset 0xf6f00000/0xfff00000
+
+Chain cali-sm-cali3e96315df96 (1 references)
+target     prot opt source               destination         
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:OTwec_fBgbdCsriR */ MARK xset 0x80900000/0xfff00000
+
+Chain cali-to-hep-forward (2 references)
+target     prot opt source               destination         
+
+Chain cali-to-host-endpoint (1 references)
+target     prot opt source               destination         
+
+Chain cali-to-wl-dispatch (2 references)
+target     prot opt source               destination         
+cali-tw-cali388fcf382cc  all  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:HrzaqQP-TtpwY_ve */
+cali-tw-cali3e96315df96  all  --  0.0.0.0/0            0.0.0.0/0           [goto]  /* cali:hnN6QXq-t3Jq4_l8 */
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:4Qe2dlUQ1cox0q-S */ /* Unknown interface */
+
+Chain cali-tw-cali388fcf382cc (1 references)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:LhcnPskQYfU1Lu7T */ ctstate RELATED,ESTABLISHED
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:NneHqz_7qq8lbvz2 */ ctstate INVALID
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:SuUPz4o88fe57C37 */ MARK and 0xfffeffff
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:8wOsuCKPBqYHbFwQ */ /* Start of policies */ MARK and 0xfffdffff
+cali-pi-default.failsafe  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:4PaEDxBB3veVouH9 */ mark match 0x0/0x20000
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:fG-dce1kBxFzKvs_ */ /* Return if policy accepted */ mark match 0x10000/0x10000
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:9fQuk8AMxwbn1k4F */ /* Drop if no policies passed packet */ mark match 0x0/0x20000
+cali-pri-kns.default  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:l65Qg6iSZUUdteW8 */
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:9OSSwHDykYV6nixw */ /* Return if profile accepted */ mark match 0x10000/0x10000
+cali-pri-ksa.default.default  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:HMyTkjpjK_Vjnk70 */
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:DE47VTUOAcNDr4aI */ /* Return if profile accepted */ mark match 0x10000/0x10000
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:swQ7epjd4nqFZfT6 */ /* Drop if no profiles matched */
+
+Chain cali-tw-cali3e96315df96 (1 references)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:DuZj1iz8FYPKxujq */ ctstate RELATED,ESTABLISHED
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:cxcrN86PFVVyFwEZ */ ctstate INVALID
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:Tj32FK1cGdCdCePX */ MARK and 0xfffeffff
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:nGpwxFps2jFmUF1I */ /* Start of policies */ MARK and 0xfffdffff
+cali-pi-default.failsafe  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:jiZ8DX5AsPK0WZye */ mark match 0x0/0x20000
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:M0qnGDF3-fUJUbCp */ /* Return if policy accepted */ mark match 0x10000/0x10000
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:Gdj9e8GuU6lTYmBu */ /* Drop if no policies passed packet */ mark match 0x0/0x20000
+cali-pri-kns.default  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:YnY6ZKUMzHePm1cg */
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:E6SNguPZIBka4mpU */ /* Return if profile accepted */ mark match 0x10000/0x10000
+cali-pri-ksa.default.default  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:k2iR7de9_KImw_-Y */
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:uj4wQLAcJ_HEO74B */ /* Return if profile accepted */ mark match 0x10000/0x10000
+DROP       all  --  0.0.0.0/0            0.0.0.0/0            /* cali:mOVQBD-1irRT1Br1 */ /* Drop if no profiles matched */
+
+Chain cali-wl-to-host (1 references)
+target     prot opt source               destination         
+cali-from-wl-dispatch  all  --  0.0.0.0/0            0.0.0.0/0            /* cali:Ee9Sbo10IpVujdIY */
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0            /* cali:sO1YJiY1b553biDi */ /* Configured DefaultEndpointToHostAction */

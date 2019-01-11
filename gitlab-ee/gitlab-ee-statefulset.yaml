@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+ name: gitlab-ee-test
+ labels:
+   apps: gitlab-ee-test
+spec:
+ replicas: 1
+ selector:
+  matchLabels:
+   apps: gitlab-ee-test
+ serviceName: "gitlab-ee-svc"
+ template:
+  metadata:
+   labels:
+    apps: gitlab-ee-test
+  spec:
+   containers:
+   - image: gitlab/gitlab-ee
+     name: gitlab-ee-test
+     imagePullPolicy: IfNotPresent
+     env:
+     - name: GITLAB_OMNIBUS_CONFIG
+       value: "external_url 'http://ingress.vicp.io/'; gitlab_rails['lfs_enabled'] = true;"
+     ports:
+     - name: ssl
+       containerPort: 443
+     - name: yewu
+       containerPort: 80
+     - name: ssh
+       containerPort: 22
+     volumeMounts:
+     - name: gitlabdata
+       mountPath: /var/opt/gitlab
+       subPath: gitlab
+     - name: gitlabdata
+       mountPath: /etc/gitlab
+       subPath: gitlabconfig
+     - name: gitlabdata
+       mountPath: /var/log/gitlab
+       subPath: gitlablog
+ volumeClaimTemplates:
+ - metadata:
+    name: gitlabdata
+   spec:
+    accessModes: [ "ReadWriteOnce" ]
+    storageClassName: "fast-disks"
+    resources:
+      requests:
+        storage: 7514Mi
