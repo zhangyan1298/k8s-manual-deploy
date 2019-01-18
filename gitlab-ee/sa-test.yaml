@@ -1,0 +1,15 @@
+apiVersion: v1
+imagePullSecrets:
+- name: tt-registry-secret
+kind: ServiceAccount
+metadata:
+  creationTimestamp: "2019-01-15T03:50:18Z"
+  name: test-registry
+  namespace: test
+  resourceVersion: "2456899"
+  selfLink: /api/v1/namespaces/test/serviceaccounts/test-registry
+  uid: aca52baa-1878-11e9-9788-020017021fb6
+secrets:
+- name: test-registry-token-rrhnm
+imagePullSecrets:
+- name: tt-registry-secret
